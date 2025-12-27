@@ -31,9 +31,10 @@ jobs:
         working-directory: ./backend
         run: npm test
       - name: Build and analyze
+        working-directory: ./backend
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: npm build
+        run: npm run build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -47,9 +48,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./backend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ env.APP_VERSION }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-backend:${{ env.APP_VERSION }}
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@master
         with:
@@ -57,7 +58,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_KEY }} # store the SSH password as a secret in the repository
           script: |
-            cd /home/ec2-user/ops-basic-spring
+            cd /home/ec2-user/three-agents
             sudo /usr/local/bin/docker-compose  down || true
-            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/ops-basic-spring/docker-compose.yml
+            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/three-agents/docker-compose.yml
             sudo /usr/local/bin/docker-compose  up -d || true
