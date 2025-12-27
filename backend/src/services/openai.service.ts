@@ -1,4 +1,4 @@
-import { HumanMessage } from '@langchain/core/messages';
+import { ContentBlock, HumanMessage } from '@langchain/core/messages';
 import { openaiClient } from '../config/llm.config';
 import { AgentError } from '../types';
 import { logger } from '../utils/logger';
@@ -14,7 +14,7 @@ export async function queryOpenAI(question: string): Promise<{ response: string;
     ], {tools: [tools.webSearch()]});
 
     const time = Date.now() - startTime;
-    const responseText = response.content[0].text;
+    const responseText = (response.content[0] as ContentBlock).text as string;
 
     logger.info('OpenAI response received', { time });
 
