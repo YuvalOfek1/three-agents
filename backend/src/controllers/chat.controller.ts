@@ -4,6 +4,7 @@ import { formatSuccessResponse, formatErrorResponse } from '../models/response.m
 import { ChatRequest } from '../types';
 import { logger } from '../utils/logger';
 
+
 export async function askQuestion(req: Request, res: Response): Promise<void> {
   try {
     // Validate request body
