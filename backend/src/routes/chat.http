@@ -1,0 +1,7 @@
+###
+POST http://localhost:3000/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "Hello, what is the capital city of Argentina?? give me support links as well"
+}
