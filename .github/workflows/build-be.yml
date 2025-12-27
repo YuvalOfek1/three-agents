@@ -29,7 +29,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{secrets.GEMINI_API_KEY}}
           OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
-          CLAUDE_API_KEY: ${{secrets.CLAUDE_API_KEY}}
+          ANTHROPIC_API_KEY: ${{secrets.ANTHROPIC_API_KEY}}
           GEMINI_MODEL: ${{vars.GEMINI_MODEL}}
           OPENAI_MODEL: ${{vars.OPENAI_MODEL}}
           CLAUDE_MODEL: ${{vars.CLAUDE_MODEL}}
@@ -59,7 +59,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
           CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
