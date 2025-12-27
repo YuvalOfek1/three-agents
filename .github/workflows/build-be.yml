@@ -1,4 +1,4 @@
-name: Build and Deploy Frontend
+name: Build and Deploy Backend
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
       - main
     paths: 
-      - 'frontend/**'
+      - 'backend/**'
 
 env:
   APP_VERSION: v1.0.${{ github.run_number }}
@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v5
-        
+        uses: actions/checkout@v2
       - name: Set up Node.js 24
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
       - run: npm ci
@@ -28,7 +28,7 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: npm run build
+        run: npm build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -44,7 +44,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-frontend:${{ env.APP_VERSION }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ env.APP_VERSION }}
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@master
         with:
@@ -54,5 +54,5 @@ jobs:
           script: |
             cd /home/ec2-user/ops-basic-spring
             sudo /usr/local/bin/docker-compose  down || true
-            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-frontend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-frontend:v1.0.${{ github.run_number }}/g' /home/ec2-user/three-agents/docker-compose.yml
+            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/ops-basic-spring/docker-compose.yml
             sudo /usr/local/bin/docker-compose  up -d || true
