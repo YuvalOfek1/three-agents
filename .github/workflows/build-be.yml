@@ -1,10 +1,12 @@
-name: Build and Deploy
+name: Build and Deploy Backend
 
 on:
   push:
     branches:
       - master
       - main
+    paths: 
+      - 'backend/**'
 
 env:
   APP_VERSION: v1.0.${{ github.run_number }}
@@ -26,6 +28,7 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: npm build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
