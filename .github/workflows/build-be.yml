@@ -30,9 +30,9 @@ jobs:
           GEMINI_API_KEY: ${{secrets.GEMINI_API_KEY}}
           OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
           CLAUDE_API_KEY: ${{secrets.CLAUDE_API_KEY}}
-          GEMINI_MODEL: ${{vars.GEMINI_API_KEY}}
-          OPENAI_MODEL: ${{vars.OPENAI_API_KEY}}
-          CLAUDE_MODEL: ${{vars.CLAUDE_API_KEY}}
+          GEMINI_MODEL: ${{vars.GEMINI_MODEL}}
+          OPENAI_MODEL: ${{vars.OPENAI_MODEL}}
+          CLAUDE_MODEL: ${{vars.CLAUDE_MODEL}}
       - name: Build and analyze
         working-directory: ./backend
         env:
@@ -56,12 +56,21 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-backend:${{ env.APP_VERSION }}
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@master
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          RUN_NUMBER: ${{ github.run_number }}
         with:
           host: ${{ secrets.EC2_INSTANCE_PUBLIC_IP }}
           username: ec2-user
-          key: ${{ secrets.SSH_KEY }} # store the SSH password as a secret in the repository
+          key: ${{ secrets.SSH_KEY }}
+          envs: GEMINI_API_KEY,OPENAI_API_KEY,CLAUDE_API_KEY,GEMINI_MODEL,OPENAI_MODEL,CLAUDE_MODEL,DOCKERHUB_USERNAME,RUN_NUMBER
           script: |
             cd /home/ec2-user/three-agents
-            sudo /usr/local/bin/docker-compose  down || true
-            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/three-agents/docker-compose.yml
-            sudo /usr/local/bin/docker-compose  up -d || true
+            sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-backend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-backend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
+            sudo -E /usr/local/bin/docker-compose up -d --no-deps backend
