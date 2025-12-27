@@ -5,6 +5,7 @@ import { logger } from './utils/logger';
 
 const app: Application = express();
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
