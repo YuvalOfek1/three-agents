@@ -5,6 +5,7 @@ import { logger } from './utils/logger';
 
 const app: Application = express();
 
+
 // Middleware
 app.use(cors({
   origin: process.env.EC2_INSTANCE_PUBLIC_IP, // Adjust as needed for security
