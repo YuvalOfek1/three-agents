@@ -6,6 +6,7 @@ import { logger } from '../utils/logger';
 export async function queryGemini(question: string): Promise<{ response: string; time: number }> {
   const startTime = Date.now();
 
+  
   try {
     logger.info('Querying Gemini', { question });
 
