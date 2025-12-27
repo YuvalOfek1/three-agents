@@ -4,6 +4,7 @@ import { logger } from './utils/logger';
 
 const PORT = env.PORT;
 
+
 // Start server
 const server = app.listen(PORT, () => {
   logger.info(`Server started successfully`, {
