@@ -54,5 +54,5 @@ jobs:
           script: |
             cd /home/ec2-user/ops-basic-spring
             sudo /usr/local/bin/docker-compose  down || true
-            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/ops-basic-spring/docker-compose.yml
+            sed -i 's/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-backend:.*/image: ${{ secrets.DOCKERHUB_USERNAME }}\/three-agents-backend:v1.0.${{ github.run_number }}/g' /home/ec2-user/three-agents/docker-compose.yml
             sudo /usr/local/bin/docker-compose  up -d || true
