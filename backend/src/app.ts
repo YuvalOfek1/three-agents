@@ -7,9 +7,13 @@ const app: Application = express();
 
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.EC2_INSTANCE_PUBLIC_IP, // Adjust as needed for security
+  credentials: true, // Needed if you are sending cookies or authorization headers
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Request logging middleware
 app.use((req: Request, _res: Response, next: NextFunction) => {
