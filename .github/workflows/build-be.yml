@@ -73,4 +73,4 @@ jobs:
           script: |
             cd /home/ec2-user/three-agents
             sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-backend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-backend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
-            sudo -E /usr/local/bin/docker-compose up -d --no-deps backend
+            sudo -E /usr/local/bin/docker-compose up -d
