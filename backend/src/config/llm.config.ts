@@ -13,6 +13,7 @@ function validateEnv(): EnvConfig {
   const requiredEnvVars = [
     'GEMINI_API_KEY',
     'OPENAI_API_KEY',
+    'ANTHROPIC_API_KEY'
   ];
 
   const missing = requiredEnvVars.filter(varName => !process.env[varName]);
