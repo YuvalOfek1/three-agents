@@ -66,4 +66,4 @@ jobs:
           script: |
             cd /home/ec2-user/three-agents
             sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-backend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-backend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
-            sudo -E /usr/local/bin/docker-compose up -d
+            sudo -E env GEMINI_API_KEY="$GEMINI_API_KEY" OPENAI_API_KEY="$OPENAI_API_KEY" ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" GEMINI_MODEL="$GEMINI_MODEL" OPENAI_MODEL="$OPENAI_MODEL" CLAUDE_MODEL="$CLAUDE_MODEL" /usr/local/bin/docker-compose up -d
