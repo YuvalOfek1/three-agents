@@ -28,9 +28,9 @@ function App() {
     setLoading(true);
 
     try {
-      // Create abort controller with 2-minute timeout for AI processing
+      // Create abort controller with 5-minute timeout for AI processing
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 seconds
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 300 seconds (5 minutes)
 
       const response = await fetch('/api/chat/ask', {
         method: 'POST',
