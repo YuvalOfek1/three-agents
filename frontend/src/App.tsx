@@ -28,13 +28,20 @@ function App() {
     setLoading(true);
 
     try {
+      // Create abort controller with 2-minute timeout for AI processing
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 seconds
+
       const response = await fetch('/api/chat/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ question: currentQuestion }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const data: ChatResponse = await response.json();
 
@@ -62,7 +69,9 @@ function App() {
             ? {
                 ...msg,
                 error:
-                  err instanceof Error
+                  err instanceof Error && err.name === 'AbortError'
+                    ? 'Request timed out - the AI agents took too long to respond. Please try again.'
+                    : err instanceof Error
                     ? err.message
                     : 'Network error - unable to reach server',
               }
