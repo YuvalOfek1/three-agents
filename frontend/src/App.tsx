@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import './App.css';
 import type { Message, ChatResponse } from './types';
 
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '13.48.123.197:3000';
 
 function App() {
