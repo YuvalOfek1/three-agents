@@ -5,8 +5,9 @@ on:
     branches:
       - master
       - main
-    paths: 
+    paths:
       - 'backend/**'
+  workflow_dispatch:
 
 env:
   APP_VERSION: v1.0.${{ github.run_number }}
