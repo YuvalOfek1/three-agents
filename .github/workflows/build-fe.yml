@@ -32,6 +32,7 @@ jobs:
         working-directory: ./frontend
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          REACT_APP_API_BASE_URL: 13.48.123.197:3000
         run: npm run build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
