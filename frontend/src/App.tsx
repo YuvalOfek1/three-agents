@@ -3,9 +3,6 @@ import ReactMarkdown from 'react-markdown';
 import './App.css';
 import type { Message, ChatResponse } from './types';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '13.48.123.197:3000';
-
-
 function App() {
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -30,7 +27,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/chat/ask`, {
+      const response = await fetch('/api/chat/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

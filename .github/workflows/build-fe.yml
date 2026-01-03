@@ -32,7 +32,6 @@ jobs:
         working-directory: ./frontend
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          REACT_APP_API_BASE_URL: 13.48.123.197:3000
         run: npm run build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -55,14 +54,13 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           RUN_NUMBER: ${{ github.run_number }}
-          REACT_APP_API_BASE_URL: http://13.48.123.197:3000
         with:
           host: ${{ secrets.EC2_INSTANCE_PUBLIC_IP }}
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
-          envs: DOCKERHUB_USERNAME,RUN_NUMBER,REACT_APP_API_BASE_URL
+          envs: DOCKERHUB_USERNAME,RUN_NUMBER
           script: |
             cd /home/ec2-user/three-agents
             git pull origin main
             sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-frontend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-frontend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
-            sudo -E env REACT_APP_API_BASE_URL="$REACT_APP_API_BASE_URL" DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" /usr/local/bin/docker-compose up -d --no-deps frontend
+            sudo -E env DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" /usr/local/bin/docker-compose up -d --no-deps frontend
