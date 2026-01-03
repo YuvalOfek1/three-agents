@@ -47,7 +47,9 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-backend:${{ env.APP_VERSION }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-backend:${{ env.APP_VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-backend:latest
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@master
         env:
@@ -67,7 +69,6 @@ jobs:
           script: |
             cd /home/ec2-user/three-agents
             git pull origin main
-            sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-backend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-backend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
             sudo /usr/local/bin/docker-compose pull backend
             sudo /usr/local/bin/docker-compose stop backend
             sudo /usr/local/bin/docker-compose rm -f backend
