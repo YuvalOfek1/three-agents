@@ -59,7 +59,7 @@ jobs:
           host: ${{ secrets.EC2_INSTANCE_PUBLIC_IP }}
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
-          envs: DOCKERHUB_USERNAME,RUN_NUMBER
+          envs: DOCKERHUB_USERNAME,RUN_NUMBER,REACT_APP_API_BASE_URL
           script: |
             cd /home/ec2-user/three-agents
             sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-frontend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-frontend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
