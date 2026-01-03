@@ -35,6 +35,7 @@ jobs:
         with:
           context: ./frontend
           push: true
+          no-cache: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-frontend:${{ env.APP_VERSION }}
             ${{ secrets.DOCKERHUB_USERNAME }}/three-agents-frontend:latest
@@ -51,7 +52,8 @@ jobs:
           script: |
             cd /home/ec2-user/three-agents
             git pull origin main
-            sudo /usr/local/bin/docker-compose pull frontend
             sudo /usr/local/bin/docker-compose stop frontend
             sudo /usr/local/bin/docker-compose rm -f frontend
+            sudo docker rmi -f ${DOCKERHUB_USERNAME}/three-agents-frontend:latest || true
+            sudo /usr/local/bin/docker-compose pull frontend
             sudo -E env DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" /usr/local/bin/docker-compose up -d --no-deps frontend
