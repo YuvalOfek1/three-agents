@@ -68,4 +68,7 @@ jobs:
             cd /home/ec2-user/three-agents
             git pull origin main
             sed -i "s|image: ${DOCKERHUB_USERNAME}/three-agents-backend:.*|image: ${DOCKERHUB_USERNAME}/three-agents-backend:v1.0.${RUN_NUMBER}|g" docker-compose.yml
+            sudo /usr/local/bin/docker-compose pull backend
+            sudo /usr/local/bin/docker-compose stop backend
+            sudo /usr/local/bin/docker-compose rm -f backend
             sudo -E env GEMINI_API_KEY="$GEMINI_API_KEY" OPENAI_API_KEY="$OPENAI_API_KEY" ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" GEMINI_MODEL="$GEMINI_MODEL" OPENAI_MODEL="$OPENAI_MODEL" CLAUDE_MODEL="$CLAUDE_MODEL" DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" /usr/local/bin/docker-compose up -d --no-deps backend
