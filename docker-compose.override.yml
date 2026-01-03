@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: three-agents-backend:local
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: three-agents-frontend:local
