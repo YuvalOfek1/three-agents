@@ -141,45 +141,51 @@ function App() {
 
                     <div className="agents-grid">
                       <div className="agent-card gemini-card">
-                        <div className="agent-card-header">
-                          <div className="agent-name">
-                            <span className="agent-icon">✨</span>
-                            <h4>Gemini</h4>
-                          </div>
-                          <span className="processing-time">
-                            {message.response.agents.gemini.processingTime}ms
-                          </span>
-                        </div>
-                        <div className="agent-content markdown-content">
-                          {message.response.agents.gemini.error ? (
-                            <div className="agent-error">
-                              {message.response.agents.gemini.error}
+                        <details className="agent-details">
+                          <summary className="agent-card-header">
+                            <div className="agent-name">
+                              <span className="summary-icon">▶</span>
+                              <span className="agent-icon">✨</span>
+                              <h4>Gemini</h4>
                             </div>
-                          ) : (
-                            <ReactMarkdown>{message.response.agents.gemini.response}</ReactMarkdown>
-                          )}
-                        </div>
+                            <span className="processing-time">
+                              {message.response.agents.gemini.processingTime}ms
+                            </span>
+                          </summary>
+                          <div className="agent-content markdown-content">
+                            {message.response.agents.gemini.error ? (
+                              <div className="agent-error">
+                                {message.response.agents.gemini.error}
+                              </div>
+                            ) : (
+                              <ReactMarkdown>{message.response.agents.gemini.response}</ReactMarkdown>
+                            )}
+                          </div>
+                        </details>
                       </div>
 
                       <div className="agent-card openai-card">
-                        <div className="agent-card-header">
-                          <div className="agent-name">
-                            <span className="agent-icon">🔮</span>
-                            <h4>OpenAI</h4>
-                          </div>
-                          <span className="processing-time">
-                            {message.response.agents.openai.processingTime}ms
-                          </span>
-                        </div>
-                        <div className="agent-content markdown-content">
-                          {message.response.agents.openai.error ? (
-                            <div className="agent-error">
-                              {message.response.agents.openai.error}
+                        <details className="agent-details">
+                          <summary className="agent-card-header">
+                            <div className="agent-name">
+                              <span className="summary-icon">▶</span>
+                              <span className="agent-icon">🔮</span>
+                              <h4>OpenAI</h4>
                             </div>
-                          ) : (
-                            <ReactMarkdown>{message.response.agents.openai.response}</ReactMarkdown>
-                          )}
-                        </div>
+                            <span className="processing-time">
+                              {message.response.agents.openai.processingTime}ms
+                            </span>
+                          </summary>
+                          <div className="agent-content markdown-content">
+                            {message.response.agents.openai.error ? (
+                              <div className="agent-error">
+                                {message.response.agents.openai.error}
+                              </div>
+                            ) : (
+                              <ReactMarkdown>{message.response.agents.openai.response}</ReactMarkdown>
+                            )}
+                          </div>
+                        </details>
                       </div>
                     </div>
 

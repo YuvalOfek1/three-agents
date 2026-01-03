@@ -358,13 +358,39 @@ body {
   background: linear-gradient(135deg, rgba(16, 163, 127, 0.05), transparent);
 }
 
+.agent-details {
+  width: 100%;
+}
+
+.agent-details summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.agent-details summary::-webkit-details-marker {
+  display: none;
+}
+
 .agent-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
+  transition: color 0.2s;
+}
+
+.agent-details[open] .agent-card-header {
+  margin-bottom: 1rem;
+}
+
+.agent-card-header:hover {
+  color: var(--text-secondary);
+}
+
+.agent-details[open] .summary-icon {
+  transform: rotate(90deg);
 }
 
 .agent-name {
